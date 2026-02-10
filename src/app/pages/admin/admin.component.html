@@ -1,0 +1,192 @@
+<div class="page">
+  <div class="container admin">
+    <aside class="side">
+      <div class="brand">CredMint Admin</div>
+      <div class="side-sub">Manage categories, products, and images.</div>
+
+      <nav class="menu" aria-label="Admin menu">
+        <button class="item" [class.active]="tab === 'categories'" (click)="tab = 'categories'" type="button">
+          Categories
+        </button>
+        <button class="item" [class.active]="tab === 'products'" (click)="tab = 'products'" type="button">
+          Products
+        </button>
+        <button class="item" [class.active]="tab === 'export'" (click)="tab = 'export'" type="button">
+          Export / Import
+        </button>
+      </nav>
+
+      <div class="note">
+        Saved to <strong>Local Storage</strong> so the storefront updates immediately.
+      </div>
+
+      <a class="back" routerLink="/">← Back to website</a>
+    </aside>
+
+    <section class="main">
+      <header class="topbar">
+        <div class="topbar-title">Dashboard</div>
+        <div class="topbar-sub">
+          Base data stays in <code>assets/catalog.json</code>. Your changes are stored locally.
+        </div>
+      </header>
+
+      <!-- Categories -->
+      <section class="card" *ngIf="tab === 'categories'">
+      <div class="card-title">Create category</div>
+      <div class="form">
+        <label class="field">
+          <span>Name</span>
+          <input [(ngModel)]="newCategoryName" placeholder="e.g. Luxury Food" />
+        </label>
+        <label class="field">
+          <span>Id (optional)</span>
+          <input [(ngModel)]="newCategoryId" placeholder="e.g. luxury_food" />
+        </label>
+        <button class="btn" type="button" (click)="addCategory()">Add</button>
+      </div>
+
+      <div class="card-title mt">Your override categories</div>
+      <div class="list">
+        <div class="row" *ngFor="let c of categories; trackBy: trackById">
+          <div>
+            <div class="name">{{ c.name }}</div>
+            <div class="meta">{{ c.id }}</div>
+          </div>
+          <button class="danger" type="button" (click)="deleteCategory(c.id)">Delete</button>
+        </div>
+      </div>
+
+      <div class="card-title mt">Deleted category ids (base + override)</div>
+      <div class="chips">
+        <button class="chip" *ngFor="let id of deletedCategoryIds" type="button" (click)="undeleteCategory(id)">
+          {{ id }} <span class="x">×</span>
+        </button>
+        <div class="muted" *ngIf="deletedCategoryIds.length === 0">None</div>
+      </div>
+      </section>
+
+      <!-- Products -->
+      <section class="card" *ngIf="tab === 'products'">
+      <div class="card-title">Create / edit product</div>
+      <div class="form grid2">
+        <label class="field">
+          <span>Title</span>
+          <input [(ngModel)]="productDraft.title" placeholder="e.g. Oak Wine" />
+        </label>
+        <label class="field">
+          <span>Id (optional)</span>
+          <input [(ngModel)]="productDraft.id" placeholder="e.g. oak-wine" />
+        </label>
+        <label class="field">
+          <span>Subtitle</span>
+          <input [(ngModel)]="productDraft.subtitle" placeholder="e.g. 12 bottles" />
+        </label>
+        <label class="field">
+          <span>Category</span>
+          <select [(ngModel)]="productDraft.categoryId">
+            <option value="technology">technology</option>
+            <option value="watch">watch</option>
+            <option value="cosmetic">cosmetic</option>
+            <option value="real_estate">real_estate</option>
+            <option value="food">food</option>
+            <option *ngFor="let c of categories" [value]="c.id">{{ c.id }}</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Price</span>
+          <input type="number" [(ngModel)]="productDraft.price" />
+        </label>
+        <label class="field">
+          <span>Compare at price</span>
+          <input type="number" [(ngModel)]="productDraft.compareAtPrice" />
+        </label>
+        <label class="field">
+          <span>Badge</span>
+          <input [(ngModel)]="productDraft.badge" placeholder="New / -15% / Favorite" />
+        </label>
+        <label class="field">
+          <span>Vendor</span>
+          <input [(ngModel)]="productDraft.vendor" placeholder="Co., Ltd ..." />
+        </label>
+
+        <label class="field">
+          <span>Promo featured</span>
+          <select [(ngModel)]="productDraft.promoFeatured">
+            <option [ngValue]="false">No</option>
+            <option [ngValue]="true">Yes</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Promo ends at (ISO)</span>
+          <input [(ngModel)]="productDraft.promoEndsAt" placeholder="2026-12-31T23:59:59.000Z" />
+        </label>
+        <label class="field">
+          <span>Promo sold</span>
+          <input type="number" [(ngModel)]="productDraft.promoSold" />
+        </label>
+        <label class="field">
+          <span>Promo stock</span>
+          <input type="number" [(ngModel)]="productDraft.promoStock" />
+        </label>
+
+        <label class="field span2">
+          <span>Image</span>
+          <div class="imgRow">
+            <input [(ngModel)]="productDraft.image" placeholder="images/placeholder-1x1.svg OR data URL" />
+            <input type="file" accept="image/*" (change)="onPickImage($event)" />
+          </div>
+          <div class="preview">
+            <img [src]="(productDraft.image?.startsWith('data:') ? productDraft.image : 'assets/' + productDraft.image) || ''" alt="preview" />
+          </div>
+        </label>
+
+        <button class="btn span2" type="button" (click)="upsertProduct()">Save product</button>
+      </div>
+
+      <div class="card-title mt">Your override products</div>
+      <div class="list">
+        <div class="row" *ngFor="let p of products; trackBy: trackById">
+          <div class="prod">
+            <img class="thumb" [src]="p.image.startsWith('data:') ? p.image : 'assets/' + p.image" [alt]="p.title" />
+            <div>
+              <div class="name">{{ p.title }}</div>
+              <div class="meta">{{ p.id }} · {{ p.categoryId }} · ${{ p.price }}</div>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="ghost" type="button" (click)="editProduct(p)">Edit</button>
+            <button class="danger" type="button" (click)="deleteProduct(p.id)">Delete</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-title mt">Deleted product ids (base + override)</div>
+      <div class="chips">
+        <button class="chip" *ngFor="let id of deletedProductIds" type="button" (click)="undeleteProduct(id)">
+          {{ id }} <span class="x">×</span>
+        </button>
+        <div class="muted" *ngIf="deletedProductIds.length === 0">None</div>
+      </div>
+      </section>
+
+      <!-- Export / Import -->
+      <section class="card" *ngIf="tab === 'export'">
+      <div class="card-title">Export overrides</div>
+      <textarea class="ta" [value]="exportOverrides()" readonly></textarea>
+
+      <div class="card-title mt">Import overrides (paste JSON)</div>
+      <textarea class="ta" [(ngModel)]="importText" placeholder="{ ... }"></textarea>
+      <button class="btn" type="button" (click)="importOverrides()">Import & Save</button>
+      </section>
+
+      <footer class="admin-footer">
+        <div class="admin-footer-inner">
+          <div class="muted">Admin panel · Saved in Local Storage</div>
+          <a class="back" routerLink="/">Back to website</a>
+        </div>
+      </footer>
+    </section>
+  </div>
+</div>
+

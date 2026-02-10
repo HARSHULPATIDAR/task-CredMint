@@ -1,0 +1,160 @@
+{
+  "categories": [
+    { "id": "real_estate", "name": "Real Estate", "icon": "home" },
+    { "id": "technology", "name": "Technology", "icon": "chip" },
+    { "id": "watch", "name": "Watch", "icon": "watch" },
+    { "id": "glasses", "name": "Glasses", "icon": "glasses" },
+    { "id": "cosmetic", "name": "Cosmetic", "icon": "sparkle" },
+    { "id": "food", "name": "Food High Grade", "icon": "food" }
+  ],
+  "products": [
+    {
+      "id": "macbook-pro-2019",
+      "title": "Apple Macbook Pro 2019",
+      "subtitle": "MWP42SA/A",
+      "categoryId": "technology",
+      "price": 2013.54,
+      "badge": "New",
+      "vendor": "Co., Ltd Minie Li",
+      "image": "images/placeholder-1x1.svg"
+    },
+    {
+      "id": "apple-watch-series-5",
+      "title": "Apple Watch Series 5",
+      "subtitle": "MWV62VN/A",
+      "categoryId": "watch",
+      "price": 517.79,
+      "badge": "Favorite",
+      "vendor": "24/7 Store",
+      "image": "images/placeholder-1x1.svg",
+      "promoFeatured": true,
+      "promoSold": 700,
+      "promoStock": 300,
+      "promoEndsAt": "2026-10-01T12:00:00.000Z"
+    },
+    {
+      "id": "macbook-air-2020",
+      "title": "Apple Macbook Air (2020)",
+      "subtitle": "MWTJ2SA/A Space Grey",
+      "categoryId": "technology",
+      "price": 1099.0,
+      "compareAtPrice": 1190.31,
+      "badge": "-15%",
+      "vendor": "Kimpine Calculator",
+      "image": "images/placeholder-1x1.svg",
+      "promoFeatured": true,
+      "promoSold": 700,
+      "promoStock": 300,
+      "promoEndsAt": "2026-12-31T23:59:59.000Z"
+    },
+    {
+      "id": "hand-watch-rossini",
+      "title": "Hand Watch Rossini",
+      "subtitle": "5395T01G",
+      "categoryId": "watch",
+      "price": 193.31,
+      "badge": "-15%",
+      "vendor": "Co., Ltd Minie Li",
+      "image": "images/placeholder-1x1.svg"
+    },
+    {
+      "id": "macbook-pro-2020",
+      "title": "Apple Macbook Pro 2020",
+      "subtitle": "MWP42SA/A Space Grey",
+      "categoryId": "technology",
+      "price": 2142.98,
+      "vendor": "Co., Ltd Minie Li",
+      "image": "images/placeholder-1x1.svg"
+    },
+    {
+      "id": "logitech-mouse",
+      "title": "Logitech B175 wireless office mouse",
+      "categoryId": "technology",
+      "price": 15.86,
+      "vendor": "Co., Ltd Minie Li",
+      "image": "images/placeholder-1x1.svg"
+    },
+    {
+      "id": "skincare-kit",
+      "title": "CIC2 Skin Decode Kit",
+      "categoryId": "cosmetic",
+      "price": 690.38,
+      "badge": "New",
+      "vendor": "Co., Ltd Baby Girl",
+      "image": "images/placeholder-1x1.svg"
+    },
+    {
+      "id": "whitening-lotion",
+      "title": "Angel Whitening Treament Lotion",
+      "categoryId": "cosmetic",
+      "price": 132.9,
+      "badge": "Favorite",
+      "vendor": "Co., Ltd Beautiful Face",
+      "image": "images/placeholder-1x1.svg"
+    },
+    {
+      "id": "sunscreen",
+      "title": "Sunscreen moisturizing intensify",
+      "categoryId": "cosmetic",
+      "price": 69.04,
+      "badge": "Sold Out",
+      "vendor": "Co., Ltd Baby Girl",
+      "image": "images/placeholder-1x1.svg"
+    },
+    {
+      "id": "anti-allergy-serum",
+      "title": "Anti-allergy serum",
+      "categoryId": "cosmetic",
+      "price": 132.9,
+      "vendor": "Co., Ltd Byware Cosmetic",
+      "image": "images/placeholder-3x2.svg"
+    },
+    {
+      "id": "apartment-gela-central",
+      "title": "Apartment for rent in GELA CENTRAL PARK",
+      "subtitle": "$2500 / month",
+      "categoryId": "real_estate",
+      "price": 2500,
+      "badge": "New",
+      "vendor": "Flower Real Estate",
+      "image": "images/placeholder-3x2.svg"
+    },
+    {
+      "id": "apartment-diamond",
+      "title": "Apartment for rent in DIAMOND",
+      "subtitle": "$4505 / month",
+      "categoryId": "real_estate",
+      "badge": "Deal",
+      "price": 4505,
+      "vendor": "Flower Real Estate",
+      "image": "images/placeholder-3x2.svg"
+    },
+    {
+      "id": "fujiwa-alkaline-12",
+      "title": "Fujiwa alkaline ion drink 1250ml (12 bottles)",
+      "categoryId": "food",
+      "price": 32,
+      "badge": "New",
+      "vendor": "Co., Ltd FUJIWA USA",
+      "image": "images/placeholder-1x1.svg"
+    },
+    {
+      "id": "fujiwa-water-4",
+      "title": "Fujiwa alkaline drinking water (4 bottles of 5L)",
+      "categoryId": "food",
+      "price": 2300,
+      "badge": "New",
+      "vendor": "Co., Ltd FUJIWA USA",
+      "image": "images/placeholder-1x1.svg"
+    },
+    {
+      "id": "oak-wine",
+      "title": "Oak Wine",
+      "categoryId": "food",
+      "price": 517.79,
+      "vendor": "Gesan Investment Joint Stock Company",
+      "image": "images/placeholder-1x1.svg"
+    }
+  ]
+}
+

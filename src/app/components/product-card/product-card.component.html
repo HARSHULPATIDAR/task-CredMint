@@ -1,0 +1,23 @@
+<article class="product">
+  <div class="product-media">
+    <span class="pill" *ngIf="product.badge">{{ product.badge }}</span>
+    <img class="product-img" [src]="'assets/' + product.image" [alt]="product.title" loading="lazy" />
+  </div>
+
+  <div class="product-body">
+    <div class="product-title">{{ product.title }}</div>
+    <div class="product-subtitle" *ngIf="product.subtitle">{{ product.subtitle }}</div>
+    <div class="product-price">
+      <span class="price">${{ product.price | number: '1.2-2' }}</span>
+      <span class="compare" *ngIf="product.compareAtPrice"
+        >${{ product.compareAtPrice | number: '1.2-2' }}</span
+      >
+    </div>
+    <div class="product-vendor" *ngIf="product.vendor">by {{ product.vendor }}</div>
+  </div>
+
+  <div class="product-actions">
+    <!-- <button class="btn-cart" type="button" (click)="onAdd()">Add To Cart</button> -->
+  </div>
+</article>
+

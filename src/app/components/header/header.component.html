@@ -1,0 +1,86 @@
+<header class="hdr">
+  <div class="hdr-top">
+    <div class="container hdr-top-inner">
+      <div class="hdr-top-left">
+        <a class="hdr-top-link" href="#">Introduce</a>
+        <a class="hdr-top-link" href="#">Partner Incentives</a>
+        <a class="hdr-top-link" href="#">Promotion</a>
+        <a class="hdr-top-link" href="#">Contact</a>
+        <a class="hdr-top-link" href="#">Frequently asked questions</a>
+      </div>
+      <div class="hdr-top-right">
+        <button class="icon-btn" type="button" aria-label="Facebook">
+          <span class="icon">f</span>
+        </button>
+        <button class="icon-btn" type="button" aria-label="Instagram">
+          <span class="icon">ig</span>
+        </button>
+        <button class="icon-btn" type="button" aria-label="Twitter">
+          <span class="icon">x</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="hdr-main">
+    <div class="container hdr-main-inner">
+      <a class="logo" routerLink="/">CredMint</a>
+
+      <form class="search" (submit)="$event.preventDefault(); onSubmitSearch()">
+        <input
+          class="search-input"
+          type="search"
+          placeholder="What are you looking for?"
+          [(ngModel)]="search"
+          name="search"
+        />
+        <select class="search-select" [(ngModel)]="categoryId" name="categoryId">
+          <option value="all">Category</option>
+          <option *ngFor="let c of (categories$ | async) ?? []" [value]="c.id">
+            {{ c.name }}
+          </option>
+        </select>
+        <button class="search-btn" type="submit">Search</button>
+      </form>
+
+      <div class="hdr-actions">
+        <a class="icon-link" routerLink="/cart" aria-label="Cart">
+          <span class="cart-icon">🛒</span>
+          <span class="badge" *ngIf="(cartCount$ | async) as c">{{ c }}</span>
+        </a>
+        <a class="icon-link" routerLink="/cart" aria-label="Wishlist">
+          <span class="cart-icon">♡</span>
+        </a>
+        <a class="avatar" href="#" aria-label="User">d</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hdr-nav">
+    <div class="container hdr-nav-inner">
+      <div class="nav-left">
+        <label class="nav-cat">
+          <span class="nav-cat-icon">≡</span>
+          <span class="nav-cat-text">Category</span>
+          <select class="nav-cat-select" [ngModel]="categoryId" (ngModelChange)="onPickCategory($event)">
+            <option value="all">All</option>
+            <option *ngFor="let c of (categories$ | async) ?? []" [value]="c.id">
+              {{ c.name }}
+            </option>
+          </select>
+        </label>
+      </div>
+
+      <nav class="nav-links" aria-label="Primary">
+        <a class="nav-link" routerLink="/">Home</a>
+        <a class="nav-link" href="#">New Product</a>
+        <a class="nav-link" href="#">
+          Promotion <span class="hot">HOT</span>
+        </a>
+        <a class="nav-link" href="#">Track Your Order</a>
+        <a class="nav-link" href="#">Sign In/Register</a>
+      </nav>
+    </div>
+  </div>
+</header>
+

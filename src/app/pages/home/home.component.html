@@ -1,0 +1,300 @@
+<div class="page">
+  <div class="container">
+    <!-- Hero layout (matches Figma structure) -->
+    <section class="hero">
+      <article class="hero-card hero-left">
+        <div class="hero-eyebrow">Asus</div>
+        <div class="hero-title">Supper Sale</div>
+        <div class="hero-subtitle">Laptop Gaming</div>
+        <button class="btn btn-primary">Order Now</button>
+      </article>
+
+      <article class="hero-card hero-center">
+        <div class="hero-meta">New Product</div>
+        <h1 class="hero-headline">HAND WATCH<br />ROSSINI</h1>
+        <button class="btn btn-primary">Buy Now</button>
+      </article>
+
+      <div class="hero-right">
+        <article class="hero-card hero-mini">
+          <div class="hero-meta">Big deal</div>
+          <div class="hero-title-sm">Black Friday</div>
+          <div class="hero-subtitle-sm">Buy 1 Get 1</div>
+        </article>
+        <article class="hero-card hero-mini">
+          <div class="hero-meta">Fujiwa</div>
+          <div class="hero-title-sm">ION Alkaline</div>
+          <div class="hero-subtitle-sm">Micronutrient Supplements</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="hero-strip">
+      <article class="strip-card">
+        <div class="strip-meta">Wine</div>
+        <div class="strip-title">Drunkenness<br />Deep Flavor</div>
+      </article>
+      <article class="strip-card">
+        <div class="strip-meta">Cosmetic</div>
+        <div class="strip-title">MAXIMI<br />Sale 50%</div>
+      </article>
+      <article class="strip-card">
+        <div class="strip-meta">Sunglasses</div>
+        <div class="strip-title">Authentic<br />Sale off 50%</div>
+      </article>
+      <article class="strip-card">
+        <div class="strip-meta">Hand Wash</div>
+        <div class="strip-title">Clean hands<br />Clean bacteria</div>
+      </article>
+      <article class="strip-card">
+        <div class="strip-meta">Fashion</div>
+        <div class="strip-title">Nice bag<br />Nice style</div>
+      </article>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2 class="section-title">Shop By Categories</h2>
+        <a class="section-link" href="#">See All</a>
+      </div>
+
+      <div class="cats">
+        <button
+          class="cat"
+          [class.active]="(filter.categoryId$ | async) === 'all'"
+          (click)="pickCategory('all')"
+          type="button"
+        >
+          <div class="cat-icon">⌂</div>
+          <div class="cat-name">All</div>
+        </button>
+        <button
+          class="cat"
+          *ngFor="let c of (categories$ | async) ?? []"
+          [class.active]="(filter.categoryId$ | async) === c.id"
+          (click)="pickCategory(c.id)"
+          type="button"
+        >
+          <div class="cat-icon">⬚</div>
+          <div class="cat-name">{{ c.name }}</div>
+        </button>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2 class="section-title">Products</h2>
+        <div class="section-sub">
+          Showing {{ (filteredProducts$ | async)?.length ?? 0 }} items
+        </div>
+      </div>
+
+      <div class="grid">
+        <app-product-card
+          *ngFor="let p of (filteredProducts$ | async) ?? []"
+          [product]="p"
+          (addToCart)="addToCart($event)"
+        ></app-product-card>
+      </div>
+    </section>
+
+    <section class="section banners">
+      <div class="banner-grid">
+        <article class="banner-card">
+          <div class="banner-meta">Hot Deal</div>
+          <h3 class="banner-title">
+            TOURS SAFE<br />
+            TRUE DISCOUNT
+          </h3>
+          <button class="btn btn-primary">Order Now</button>
+        </article>
+        <article class="banner-card">
+          <div class="banner-meta">New Product</div>
+          <h3 class="banner-title">
+            EXPERIENCE TECHNOLOGY<br />
+            RELAX HIGHTLY
+          </h3>
+          <button class="btn btn-primary">Order Now</button>
+        </article>
+      </div>
+    </section>
+
+    <section class="section promo" *ngIf="(promoProducts$ | async) as promo">
+      <div class="section-head promo-head">
+        <div class="section-head-left">
+          <h2 class="section-title">Promo Product</h2>
+        </div>
+        <div class="section-head-right">
+          <a class="section-link" href="#">See All</a>
+          <div class="promo-arrows" *ngIf="promo.length > 1">
+            <button class="arrow" type="button" (click)="setPromoIndex(-1, promo)">‹</button>
+            <button class="arrow" type="button" (click)="setPromoIndex(1, promo)">›</button>
+          </div>
+        </div>
+      </div>
+
+      <ng-container *ngIf="promo.length > 0">
+        <ng-container *ngIf="currentPromo(promo) as current">
+        <div class="promo-row" *ngIf="now$ | async as now">
+          <!-- Left ghost card -->
+          <article class="promo-tile ghost">
+            <div class="promo-badge-box" *ngIf="current?.badge">
+              <span class="promo-badge">{{ current.badge }}</span>
+            </div>
+            <div class="promo-image-ratio">Image Ratio 1:1</div>
+          </article>
+
+          <!-- Main promo card -->
+          <article class="promo-tile main">
+            <div class="promo-header">
+              <div class="promo-badge-box" *ngIf="current?.badge">
+                <span class="promo-badge">{{ current.badge }}</span>
+              </div>
+              <div class="promo-title-block">
+                <div class="promo-product-title">{{ current.title }}</div>
+                <div class="promo-product-sub" *ngIf="current.subtitle">{{ current.subtitle }}</div>
+              </div>
+            </div>
+
+            <div class="promo-price-line">
+              <div class="promo-price-main">
+                <strong>${{ current.price | number: '1.0-0' }}</strong>
+                <span class="compare" *ngIf="current.compareAtPrice">
+                  ${{ current.compareAtPrice | number: '1.0-0' }}
+                </span>
+              </div>
+              <div class="promo-meta-line">
+                <span>Sold: 700</span>
+                <span>In Stock: 300</span>
+              </div>
+              <div class="promo-bar">
+                <div class="promo-bar-fill"></div>
+              </div>
+            </div>
+
+            <div class="promo-countdown" *ngIf="getCountdown(current, now) as cd">
+              <div class="cd-box">
+                <div class="cd-value">{{ cd.days }}</div>
+                <div class="cd-label">Day</div>
+              </div>
+              <div class="cd-box">
+                <div class="cd-value">{{ cd.hours }}</div>
+                <div class="cd-label">Hour</div>
+              </div>
+              <div class="cd-box">
+                <div class="cd-value">{{ cd.mins }}</div>
+                <div class="cd-label">Min</div>
+              </div>
+              <div class="cd-box">
+                <div class="cd-value">{{ cd.secs }}</div>
+                <div class="cd-label">Sec</div>
+              </div>
+            </div>
+
+            <button
+              class="btn btn-primary w100"
+              type="button"
+              (click)="addToCart(current.id)"
+            >
+              Add To Cart
+            </button>
+          </article>
+
+          <!-- Second promo card (if available) -->
+          <article class="promo-tile main" *ngIf="promo.length > 1">
+            <ng-container *ngIf="promo[1] as second">
+              <div class="promo-header">
+                <div class="promo-badge-box" *ngIf="second?.badge">
+                  <span class="promo-badge">{{ second.badge }}</span>
+                </div>
+                <div class="promo-title-block">
+                  <div class="promo-product-title">{{ second.title }}</div>
+                  <div class="promo-product-sub" *ngIf="second.subtitle">{{ second.subtitle }}</div>
+                </div>
+              </div>
+
+              <div class="promo-price-line">
+                <div class="promo-price-main">
+                  <strong>${{ second.price | number: '1.0-0' }}</strong>
+                  <span class="compare" *ngIf="second.compareAtPrice">
+                    ${{ second.compareAtPrice | number: '1.0-0' }}
+                  </span>
+                </div>
+                <div class="promo-meta-line">
+                  <span>Sold: {{ second.promoSold ?? 700 }}</span>
+                  <span>In Stock: {{ second.promoStock ?? 300 }}</span>
+                </div>
+                <div class="promo-bar">
+                  <div class="promo-bar-fill"></div>
+                </div>
+              </div>
+
+              <div class="promo-countdown" *ngIf="getCountdown(second, now) as cd2">
+                <div class="cd-box">
+                  <div class="cd-value">{{ cd2.days }}</div>
+                  <div class="cd-label">Day</div>
+                </div>
+                <div class="cd-box">
+                  <div class="cd-value">{{ cd2.hours }}</div>
+                  <div class="cd-label">Hour</div>
+                </div>
+                <div class="cd-box">
+                  <div class="cd-value">{{ cd2.mins }}</div>
+                  <div class="cd-label">Min</div>
+                </div>
+                <div class="cd-box">
+                  <div class="cd-value">{{ cd2.secs }}</div>
+                  <div class="cd-label">Sec</div>
+                </div>
+              </div>
+
+              <button
+                class="btn btn-primary w100"
+                type="button"
+                (click)="addToCart(second.id)"
+              >
+                Add To Cart
+              </button>
+            </ng-container>
+          </article>
+        </div>
+        </ng-container>
+      </ng-container>
+    </section>
+
+    <section class="section" *ngIf="(categorySections$ | async) as sections">
+      <section class="cat-section" *ngFor="let s of sections">
+        <div class="section-head">
+          <h2 class="section-title">{{ s.title }}</h2>
+          <a class="section-link" href="#">See All</a>
+        </div>
+        <div class="grid">
+          <app-product-card
+            *ngFor="let p of s.products"
+            [product]="p"
+            (addToCart)="addToCart($event)"
+          ></app-product-card>
+        </div>
+      </section>
+    </section>
+
+    <section class="section perks">
+      <div class="perk">
+        <div class="perk-ico">🚚</div>
+        <div class="perk-title">Free Shipping</div>
+        <div class="perk-sub">For invoices over $1,500</div>
+      </div>
+      <div class="perk">
+        <div class="perk-ico">💸</div>
+        <div class="perk-title">Cash Back</div>
+        <div class="perk-sub">When paying for products via wallet</div>
+      </div>
+      <div class="perk">
+        <div class="perk-ico">🎧</div>
+        <div class="perk-title">24/7 Support</div>
+        <div class="perk-sub">When something goes wrong</div>
+      </div>
+    </section>
+  </div>
+</div>
+

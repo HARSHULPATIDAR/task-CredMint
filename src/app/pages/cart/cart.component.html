@@ -1,0 +1,64 @@
+<div class="page">
+  <div class="container">
+    <div class="head">
+      <h1 class="title">Cart</h1>
+      <button class="btn-clear" type="button" (click)="clear()">Clear cart</button>
+    </div>
+
+    <ng-container *ngIf="(items$ | async) as items">
+      <div class="empty" *ngIf="items.length === 0">
+        Your cart is empty. Go back to <a routerLink="/">home</a>.
+      </div>
+
+      <div class="layout" *ngIf="items.length > 0">
+        <div class="list">
+          <article class="row" *ngFor="let it of items">
+            <img
+              class="img"
+              [src]="it.product.image.startsWith('data:') ? it.product.image : 'assets/' + it.product.image"
+              [alt]="it.product.title"
+            />
+
+            <div class="info">
+              <div class="name">{{ it.product.title }}</div>
+              <div class="meta" *ngIf="it.product.subtitle">{{ it.product.subtitle }}</div>
+              <div class="price">${{ it.product.price | number: '1.2-2' }}</div>
+              <button class="link" type="button" (click)="remove(it.product.id)">Remove</button>
+            </div>
+
+            <div class="qty">
+              <button class="qty-btn" type="button" (click)="dec(it.product.id, it.qty)">-</button>
+              <input
+                class="qty-input"
+                inputmode="numeric"
+                [value]="it.qty"
+                (change)="setQty(it.product.id, ($any($event.target).value))"
+              />
+              <button class="qty-btn" type="button" (click)="inc(it.product.id, it.qty)">+</button>
+            </div>
+
+            <div class="total">${{ it.lineTotal | number: '1.2-2' }}</div>
+          </article>
+        </div>
+
+        <aside class="summary">
+          <div class="sum-title">Order summary</div>
+          <div class="sum-row">
+            <span>Subtotal</span>
+            <strong>${{ (subtotal$ | async) ?? 0 | number: '1.2-2' }}</strong>
+          </div>
+          <div class="sum-row">
+            <span>Shipping</span>
+            <strong>$0.00</strong>
+          </div>
+          <div class="sum-row sum-total">
+            <span>Total</span>
+            <strong>${{ (subtotal$ | async) ?? 0 | number: '1.2-2' }}</strong>
+          </div>
+          <button class="btn-checkout" type="button">Checkout</button>
+        </aside>
+      </div>
+    </ng-container>
+  </div>
+</div>
+

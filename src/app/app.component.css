@@ -1,0 +1,5 @@
+/* App shell spacing (header is sticky) */
+.app-main {
+  min-height: calc(100vh - 80px);
+}
+
